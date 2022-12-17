@@ -1,40 +1,62 @@
 import React from 'react'
-import  {Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import propTypes from 'prop-types'
 
 
 export default function Button(props) {
-  const className = [props.className]
-  if(props.isPrimary) className.push("btn-primary")
-  if(props.isLarge) className.push("btn-lg")
-  if(props.isSmall) className.push("btn-sm")
-  if(props.isBlock) className.push("btn-block")
-  if(props.isShadow) className.push("btn-shadow")
+  const className = [props.className];
+  if (props.isPrimary) className.push('primary');
+  if (props.isSmall) className.push('small');
+  if (props.isLarge) className.push('large');
+  if (props.isBlock) className.push('block');
+  if (props.hasShadow) className.push('shadow');
 
   const onclick = () => {
-    if(props.onclick) props.onclick()
-  }
+    if (props.onClick) props.onClick();
+  };
 
-  if(props.type === "Link"){
-    <a href={props.href} className={className.join(" ")} style={props.style} target={props.target === "_blank" ?"_blank":undefined} rel={props.target === "_blank" ?"noopener noreferrer":undefined}>{props.children}</a>
-  } else {
-    return{
-      Link
+  if (props.type === "link") {
+    if (props.isExternal) {
+      return (
+        <a
+          href={props.href}
+          className={className.join(" ")}
+          style={props.style}
+          target={props.target === "_blank" ? "_blank" : undefined}
+          rel={props.target === "_blank" ? "noopener noreferrer" : undefined}
+        >
+          {props.children}
+        </a>
+      );
+    } else {
+      return (
+        <Link
+          to={props.href}
+          className={className.join(" ")}
+          style={props.style} onClick={onclick}
+        >
+          {props.children}
+        </Link>
+      );
     }
   }
+
   return (
-    <div>
-    </div>
+    <button
+      className={className.join(" ")}
+      style={props.style}
+      onClick={onclick}
+    >
+      {props.children}
+    </button>
   )
 }
-
 Button.propTypes = {
-  type: propTypes.oneOf(["Button","Link"]),
+  type: propTypes.oneOf(["button", "link"]),
   onclick: propTypes.func,
-  target: propTypes.string,
-  href: propTypes.string,
   className: propTypes.string,
-  isDisabled: propTypes.bool,
+  target: propTypes.string,
+  isDisable: propTypes.bool,
   isLoading: propTypes.bool,
   isSmall: propTypes.bool,
   isLarge: propTypes.bool,
