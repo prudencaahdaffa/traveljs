@@ -1,19 +1,34 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import propTypes from 'prop-types'
-
+import React from "react";
+import { Link } from "react-router-dom";
+import propTypes from "prop-types";
 
 export default function Button(props) {
   const className = [props.className];
-  if (props.isPrimary) className.push('primary');
-  if (props.isSmall) className.push('small');
-  if (props.isLarge) className.push('large');
-  if (props.isBlock) className.push('block');
-  if (props.hasShadow) className.push('shadow');
+  if (props.isPrimary) className.push("primary");
+  if (props.isSmall) className.push("small");
+  if (props.isLarge) className.push("large");
+  if (props.isBlock) className.push("block");
+  if (props.hasShadow) className.push("shadow");
 
   const onclick = () => {
     if (props.onClick) props.onClick();
   };
+
+  if (props.isDisabled || props.isLoading) {
+    if (props.isDisabled) className.push("disabled");
+    return (
+      <span className={className.join(" ")} style={props.style}>
+        {props.isLoading ? (
+          <>
+            <span className="spinner-border spinner-border-sm"></span>
+            <span className="sr-only">Loading ...</span>
+          </>
+        ) : (
+          props.children
+        )}
+      </span>
+    );
+  }
 
   if (props.type === "link") {
     if (props.isExternal) {
@@ -33,7 +48,8 @@ export default function Button(props) {
         <Link
           to={props.href}
           className={className.join(" ")}
-          style={props.style} onClick={onclick}
+          style={props.style}
+          onClick={onclick}
         >
           {props.children}
         </Link>
@@ -49,7 +65,7 @@ export default function Button(props) {
     >
       {props.children}
     </button>
-  )
+  );
 }
 Button.propTypes = {
   type: propTypes.oneOf(["button", "link"]),
@@ -61,5 +77,5 @@ Button.propTypes = {
   isSmall: propTypes.bool,
   isLarge: propTypes.bool,
   isBlock: propTypes.bool,
-  hasShadow: propTypes.bool
+  hasShadow: propTypes.bool,
 };
