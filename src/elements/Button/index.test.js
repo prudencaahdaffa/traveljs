@@ -21,15 +21,6 @@ test("Should render <a> tag", () => {
     expect(container.querySelector("a")).toBeInTheDocument();
 });
 
-// test("Should render <Link> component", () => {
-//     const { container } = render(
-//         <Router>
-//             <Button href="" type="link"></Button>
-//         </Router>
-//     );
-//     expect(container.querySelector("a")).toBeInTheDocument();
-// });
-
 test("Should render <Link> component", () => {
     const { container } = render(
         <Router>
